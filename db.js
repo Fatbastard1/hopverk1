@@ -8,6 +8,7 @@ const converter = new Converter({});
 const connectionString = 'postgres://postgres:@localhost/hinriksteinar';
 
 
+
  converter.fromFile("./data/books.csv",async function(err,result){
     // if an error has occured then handle it
     if(err){
@@ -19,13 +20,13 @@ const connectionString = 'postgres://postgres:@localhost/hinriksteinar';
 
     const json = result;
 
-      async function createCategories (json){
+async function createCategories (json){
 
 
        const client = new Client({
           user: 'postgres',
           host: 'localhost',
-          database: 'hinriksteinar',
+          database: 'postgres',
           password: 'postgres',
         });
       await client.connect();
@@ -44,12 +45,12 @@ const connectionString = 'postgres://postgres:@localhost/hinriksteinar';
     }
 
 
-    async function createBooks (json){
+async function createBooks (json){
 
      const client = new Client({
         user: 'postgres',
         host: 'localhost',
-        database: 'hinriksteinar',
+        database: 'postgres',
         password: 'postgres',
       });
     await client.connect();
@@ -67,9 +68,23 @@ const connectionString = 'postgres://postgres:@localhost/hinriksteinar';
     await client.end();
   }
 
+async function publishBooks(json){
+  const client = new Client({
+     user: 'postgres',
+     host: 'localhost',
+     database: 'postgres',
+     password: 'postgres',
+   });
+ await client.connect();
+
+ const query = 'SELECT * FROM books';
+
+
+}
 
 
 createCategories(json);
 createBooks(json);
+// publishBooks(json);
     // log our json to verify it has worked
 });

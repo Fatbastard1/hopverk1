@@ -7,7 +7,7 @@ async function readAll() {
   const client = new Client({
      user: 'postgres',
      host: 'localhost',
-     database: 'hinriksteinar',
+     database: 'postgres',
      password: 'postgres',
    });
  await client.connect();
@@ -25,11 +25,105 @@ async function readAll() {
   }
 }
 
+async function readCategories() {
+  const client = new Client({
+     user: 'postgres',
+     host: 'localhost',
+     database: 'postgres',
+     password: 'postgres',
+   });
+ await client.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM categories');
+
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
+
+async function readCategories() {
+  const client = new Client({
+     user: 'postgres',
+     host: 'localhost',
+     database: 'postgres',
+     password: 'postgres',
+   });
+ await client.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM categories');
+
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
+
+async function readOne(id) {
+  const client = new Client({
+     user: 'postgres',
+     host: 'localhost',
+     database: 'postgres',
+     password: 'postgres',
+   });
+ await client.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM books WHERE id = ' + id);
+
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
+
+async function searchBy(query){
+  const client = new Client({
+     user: 'postgres',
+     host: 'localhost',
+     database: 'postgres',
+     password: 'postgres',
+   });
+   await client.connect();
+
+   try {
+
+     const result = await client.query('SELECT * FROM books WHERE to_tsvector(title || \' \' || description) '+
+     '@@ to_tsquery(\'' + query + '\')');
+
+     const { rows } = result;
+     return rows;
+
+   } catch (e) {
+      throw e
+   } finally {
+     await client.end();
+   }
+}
+
+
+
+
 
 module.exports = {
   //create,
   readAll,
-  //readOne,
-  //update,
+  readCategories,
+  readOne,
+  searchBy,
   //del,
 };

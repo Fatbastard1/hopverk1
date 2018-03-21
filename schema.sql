@@ -1,4 +1,7 @@
-
+DROP TABLE IF EXISTS readBooks;
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(64) UNIQUE NOT NULL,
@@ -7,10 +10,13 @@ CREATE TABLE users (
   imgName TEXT
 );
 
+
+
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     category VARCHAR(255) UNIQUE NOT NULL
 );
+
 
 CREATE TABLE books (
     id SERIAL PRIMARY KEY,
@@ -18,9 +24,9 @@ CREATE TABLE books (
     ISBN13 VARCHAR(13) UNIQUE NOT NULL,
     author VARCHAR(64),
     description TEXT,
-    category VARCHAR(255) ,
-    FOREIGN KEY (category) REFERENCES categories (category)
+    category VARCHAR(255)
 );
+
 
 CREATE TABLE readBooks (
     id SERIAL PRIMARY KEY,
