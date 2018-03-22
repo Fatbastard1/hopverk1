@@ -1,6 +1,6 @@
 const { Client } = require('pg');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/hinriksteinar';
+const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/postgres';
 
 
 async function readAll() {

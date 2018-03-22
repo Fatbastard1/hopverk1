@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const { Client } = require('pg');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/hinriksteinar';
+const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/postgres';
 
 async function query(q, values = []) {
   const client = new Client({connectionString});
