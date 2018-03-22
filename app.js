@@ -199,5 +199,5 @@ app.use(errorHandler);
 
 
 app.listen(port, () => {
-  console.info(Server running at http://${host}:${port}/);
+  console.info(`Server running at http://${host}:${port}/`);
 });
