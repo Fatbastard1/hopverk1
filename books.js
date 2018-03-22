@@ -4,13 +4,7 @@ const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/pos
 
 
 async function readAll() {
-  /*const client = new Client({
-     user: 'postgres',
-     host: 'localhost',
-     database: 'postgres',
-     password: 'postgres',
-   });*/
-   const client = new Client ({connectionString});
+  const client = new Client({connectionString});
  await client.connect();
 
   try {
@@ -26,37 +20,9 @@ async function readAll() {
   }
 }
 
-async function readCategories() {
-  /*const client = new Client({
-     user: 'postgres',
-     host: 'localhost',
-     database: 'postgres',
-     password: 'postgres',
-   });*/
-   const client = new Client ({connectionString});
- await client.connect();
-
-  try {
-    const result = await client.query('SELECT * FROM categories');
-
-    const { rows } = result;
-    return rows;
-  } catch (err) {
-    console.error('Error selecting data');
-    throw err;
-  } finally {
-    await client.end();
-  }
-}
 
 async function readCategories() {
-  /*const client = new Client({
-     user: 'postgres',
-     host: 'localhost',
-     database: 'postgres',
-     password: 'postgres',
-   });*/
-   const client = new Client ({connectionString});
+  const client = new Client({connectionString});
  await client.connect();
 
   try {
@@ -73,14 +39,9 @@ async function readCategories() {
 }
 
 async function readOne(id) {
-  /*const client = new Client({
-     user: 'postgres',
-     host: 'localhost',
-     database: 'postgres',
-     password: 'postgres',
-   });*/
-   const client = new Client ({connectionString});
- await client.connect();
+  const client = new Client({connectionString});
+
+  await client.connect();
 
   try {
     const result = await client.query('SELECT * FROM books WHERE id = ' + id);
@@ -96,13 +57,8 @@ async function readOne(id) {
 }
 
 async function searchBy(query){
-  /*const client = new Client({
-     user: 'postgres',
-     host: 'localhost',
-     database: 'postgres',
-     password: 'postgres',
-   });*/
-   const client = new Client ({connectionString});
+  const client = new Client({connectionString});
+
    await client.connect();
 
    try {
@@ -120,8 +76,22 @@ async function searchBy(query){
    }
 }
 
+async function readUsers() {
+  const client = new Client({connectionString});
+  await client.connect();
 
+  try {
+    const result = await client.query('SELECT * FROM users');
 
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
 
 
 module.exports = {
@@ -130,5 +100,5 @@ module.exports = {
   readCategories,
   readOne,
   searchBy,
-  //del,
+  readUsers,
 };
