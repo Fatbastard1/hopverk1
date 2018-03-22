@@ -4,8 +4,8 @@
   "description": "Útfæra skal vefþjónustu fyrir „bókasafn“ með notendaumsjón og setja upp á Heroku. Gefin eru gögn fyrir bækur og flokka.",
   "main": ".eslintrc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,14 @@
   "homepage": "https://github.com/hinriksteinar/hopaverkefni1#readme",
   "dependencies": {
     "api": "^1.0.0",
+    "bcrypt": "^1.0.3",
     "csvtojson": "^1.1.9",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "pg": "^7.4.1"
   }
