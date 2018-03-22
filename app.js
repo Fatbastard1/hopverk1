@@ -1,34 +1,75 @@
-require('dotenv').config();
-const express = require('express');
-const api = require('./api');
+const { Client } = require('pg');
 
-const app = express();
+const Converter = require("csvtojson").Converter;
 
-app.use(express.json());
-app.use('/', api);
+const converter = new Converter({});
 
-function notFoundHandler(req, res, next) { // eslint-disable-line
-  res.status(404).json({ error: 'Not found' });
-}
 
-function errorHandler(err, req, res, next) { // eslint-disable-line
-  console.error(err);
+const connectionString = 'postgres://postgres:@localhost/hinriksteinar';
 
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    return res.status(400).json({ error: 'Invalid json' });
+
+
+ converter.fromFile("./data/books.csv",async function(err,result){
+    // if an error has occured then handle it
+    if(err){
+        console.log("An Error Has Occured");
+        console.log(err);
+    }
+    // create a variable called json and store
+    // the result of the conversion
+
+    const json = result;
+
+      async function createCategories (json){
+
+
+       const client = new Client({
+          user: 'postgres',
+          host: 'localhost',
+          database: 'hinriksteinar',
+          password: 'postgres',
+        });
+      await client.connect();
+
+      const query = 'INSERT into categories (category) SELECT CAST($1 AS VARCHAR) WHERE NOT EXISTS (SELECT category FROM categories WHERE category=$1)';
+      for (let i = 0; i < json.length; i++) {
+        let values = [json[i].category];
+        try {
+          await client.query(query, values);
+        } catch (err) {
+          console.error('Error inserting data');
+          throw err;
+        }
+      }
+      await client.end();
+    }
+
+
+    async function createBooks (json){
+
+     const client = new Client({
+        user: 'postgres',
+        host: 'localhost',
+        database: 'hinriksteinar',
+        password: 'postgres',
+      });
+    await client.connect();
+
+    const query = 'INSERT into books (title, isbn13, author, description, category) VALUES($1, $2, $3, $4, $5)';
+    for (let i = 0; i < json.length; i++) {
+      let values = [json[i].title, json[i].isbn13, json[i].author, json[i].description, json[i].category];
+      try {
+        await client.query(query, values);
+      } catch (err) {
+        console.error('Error inserting data');
+        throw err;
+      }
+    }
+    await client.end();
   }
 
-  return res.status(500).json({ error: 'Internal server error' });
-}
 
-app.use(notFoundHandler);
-app.use(errorHandler);
-
-const {
-  PORT: port = 3000,
-  HOST: host = '127.0.0.1',
-} = process.env;
-
-app.listen(port, () => {
-  console.info(`Server running at http://${host}:${port}/`);
+createCategories(json);
+createBooks(json);
+    // log our json to verify it has worked
 });

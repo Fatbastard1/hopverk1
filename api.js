@@ -1,36 +1,104 @@
-const express = require('express');
+const { Client } = require('pg');
 
-const {
+const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/hinriksteinar';
+
+
+async function readAll() {
+  const client = new Client({connectionString});
+ await client.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM books ORDER BY id LIMIT 10 OFFSET 0');
+
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
+
+
+async function readCategories() {
+  const client = new Client({connectionString});
+ await client.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM categories');
+
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
+
+async function readOne(id) {
+  const client = new Client({connectionString});
+
+  await client.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM books WHERE id = ' + id);
+
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
+
+async function searchBy(query){
+  const client = new Client({connectionString});
+
+   await client.connect();
+
+   try {
+
+     const result = await client.query('SELECT * FROM books WHERE to_tsvector(title || \' \' || description) '+
+     '@@ to_tsquery(\'' + query + '\')');
+
+     const { rows } = result;
+     return rows;
+
+   } catch (e) {
+      throw e
+   } finally {
+     await client.end();
+   }
+}
+
+async function readUsers() {
+  const client = new Client({connectionString});
+  await client.connect();
+
+  try {
+    const result = await client.query('SELECT * FROM users');
+
+    const { rows } = result;
+    return rows;
+  } catch (err) {
+    console.error('Error selecting data');
+    throw err;
+  } finally {
+    await client.end();
+  }
+}
+
+
+module.exports = {
+  //create,
   readAll,
   readCategories,
   readOne,
   searchBy,
-} = require('./books');
-
-const router = express.Router();
-
-router.get('/books', async (req, res) => {
-  if(req.query.search === undefined){
-    const rows = await readAll();
-    res.json(rows);
-  }
-  else {
-    const query = req.query.search;
-    const result = await searchBy(query);
-    res.json(result);
-  }
-});
-
-router.get('/categories', async (req, res) => {
-  const rows = await readCategories();
-  res.json(rows);
-});
-
-router.get('/books/:id', async (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const rows = await readOne(id);
-  res.json(rows);
-});
-
-
-module.exports = router;
+  readUsers,
+};
