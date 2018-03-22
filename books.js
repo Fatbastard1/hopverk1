@@ -4,12 +4,13 @@ const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/hin
 
 
 async function readAll() {
-  const client = new Client({
+  /*const client = new Client({
      user: 'postgres',
      host: 'localhost',
      database: 'postgres',
      password: 'postgres',
-   });
+   });*/
+   const client = new Client ({connectionString});
  await client.connect();
 
   try {
@@ -26,12 +27,13 @@ async function readAll() {
 }
 
 async function readCategories() {
-  const client = new Client({
+  /*const client = new Client({
      user: 'postgres',
      host: 'localhost',
      database: 'postgres',
      password: 'postgres',
-   });
+   });*/
+   const client = new Client ({connectionString});
  await client.connect();
 
   try {
@@ -48,12 +50,13 @@ async function readCategories() {
 }
 
 async function readCategories() {
-  const client = new Client({
+  /*const client = new Client({
      user: 'postgres',
      host: 'localhost',
      database: 'postgres',
      password: 'postgres',
-   });
+   });*/
+   const client = new Client ({connectionString});
  await client.connect();
 
   try {
@@ -70,12 +73,13 @@ async function readCategories() {
 }
 
 async function readOne(id) {
-  const client = new Client({
+  /*const client = new Client({
      user: 'postgres',
      host: 'localhost',
      database: 'postgres',
      password: 'postgres',
-   });
+   });*/
+   const client = new Client ({connectionString});
  await client.connect();
 
   try {
@@ -92,12 +96,13 @@ async function readOne(id) {
 }
 
 async function searchBy(query){
-  const client = new Client({
+  /*const client = new Client({
      user: 'postgres',
      host: 'localhost',
      database: 'postgres',
      password: 'postgres',
-   });
+   });*/
+   const client = new Client ({connectionString});
    await client.connect();
 
    try {

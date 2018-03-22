@@ -4,7 +4,8 @@
   "description": "Útfæra skal vefþjónustu fyrir „bókasafn“ með notendaumsjón og setja upp á Heroku. Gefin eru gögn fyrir bækur og flokka.",
   "main": ".eslintrc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
