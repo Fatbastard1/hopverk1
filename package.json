@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hinriksteinar/hopaverkefni1.git"
+    "url": "git+https://github.com/Fatbastard1/hopverk1.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hinriksteinar/hopaverkefni1/issues"
+    "url": "https://github.com/Fatbastard1/hopverk1"
   },
-  "homepage": "https://github.com/hinriksteinar/hopaverkefni1#readme",
+  "homepage": "https://github.com/Fatbastard1/hopverk1/blob/master/README.md",
   "dependencies": {
     "api": "^1.0.0",
     "bcrypt": "^1.0.3",
